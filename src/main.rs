@@ -1,7 +1,31 @@
+use std::io;
+
+
 fn main() {
     let mut w = Word::new("asdfg");
-    w.reveal('a');
+    let guess: char = get_player_guess();
+    w.reveal(guess);
     println!("{} {:?}", w.word, w.revealed_chars);
+}
+
+fn get_player_guess() -> char {
+    loop {
+        println!("Please enter a single alphabetic character: ");
+
+        let mut guess = String::new();
+
+        io::stdin().read_line(&mut guess)
+            .expect("Failed to read line");
+        
+        let guess: char = match guess.trim().parse() {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        if char::is_alphabetic(guess) {
+            return guess
+        }
+    }
 }
 
 struct Word {
