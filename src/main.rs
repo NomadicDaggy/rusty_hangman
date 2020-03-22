@@ -3,12 +3,26 @@ use std::io;
 
 fn main() {
     let mut w = Word::new("asdfg");
-    let guess: char = get_player_guess();
-    w.reveal(guess);
+
+    let guess = get_valid_guess(&w);
+
+    w.add_to_revealed(guess);
+
     println!("{} {:?}", w.word, w.revealed_chars);
 }
 
-fn get_player_guess() -> char {
+fn get_valid_guess(w: &Word) -> char {
+    loop {
+        let guess: char = cli_read_letter();
+        if !w.revealed_chars.contains(&guess) {
+            return guess
+        }
+
+        println!("You already guessed \"{}\"", guess);
+    }
+}
+
+fn cli_read_letter() -> char {
     loop {
         println!("Please enter a single alphabetic character: ");
 
@@ -41,7 +55,8 @@ impl Word {
         }
     }
 
-    fn reveal(&mut self, c: char) {
+    fn add_to_revealed(&mut self, c: char) {
+        // At this point its guaranteed that char is fine
         self.revealed_chars.push(c);
     }
 }
