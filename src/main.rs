@@ -24,9 +24,21 @@ impl Word {
         }
     }
 
-    fn add_to_revealed(&mut self, c: char) {
+    fn add_to_tried(&mut self, c: char) {
         // At this point its guaranteed that char is fine
         self.tried_chars.push(c);
+    }
+
+    fn guessed_all(&self) -> bool {
+        // Does tried_chars contain all the unique chars of word
+        let mut unique_chars: Vec<_> = self.word.clone().chars().collect();
+        unique_chars.dedup();
+
+        for c in unique_chars.iter() {
+            if self.word.contains(&c.to_string()) { return false }
+        }
+
+        true
     }
 }
 
@@ -58,7 +70,7 @@ impl Game {
         // Display word
 
         let guess = self.get_valid_guess();
-        self.word.tried_chars.push(guess);
+        self.word.add_to_tried(guess);
 
         if self.word.word.contains(guess) {
         } else {
