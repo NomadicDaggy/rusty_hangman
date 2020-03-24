@@ -14,7 +14,7 @@ fn main() {
 
     loop {
         game.play_round();
-        if game.ongoing == false { break; }
+        if game.lives_remaining == 0 { break; }
     }
 }
 
@@ -65,7 +65,7 @@ impl Game {
     fn play_round(&self) {
         let guess = self.get_valid_guess();
 
-        if self.word.contains(guess) {
+        if self.word.word.contains(guess) {
             // Add to tried and reveal
         } else {
             // Add to tried and increment drawing
