@@ -2,23 +2,74 @@ use std::io;
 
 
 fn main() {
-    let mut w = Word::new("asdfg");
+    /*let mut w = Word::new("asdfg");
 
     let guess = get_valid_guess(&w);
 
     w.add_to_revealed(guess);
 
-    println!("{} {:?}", w.word, w.revealed_chars);
+    println!("{} {:?}", w.word, w.revealed_chars);*/
+
+    let mut game = Game::new();
+
+    loop {
+        game.play_round();
+        if game.ongoing == false { break; }
+    }
 }
 
-fn get_valid_guess(w: &Word) -> char {
-    loop {
-        let guess: char = cli_read_letter();
-        if !w.revealed_chars.contains(&guess) {
-            return guess
-        }
 
-        println!("You already guessed \"{}\"", guess);
+struct Word {
+    word: String,
+    revealed_chars: Vec<char>,
+}
+
+impl Word {
+    fn new(word: &str) -> Self {
+        Word {
+            word: word.to_string(),
+            revealed_chars: Vec::<char>::new(),
+        }
+    }
+
+    fn add_to_revealed(&mut self, c: char) {
+        // At this point its guaranteed that char is fine
+        self.revealed_chars.push(c);
+    }
+}
+
+struct Game {
+    word: Word,
+    ongoing: bool,
+}
+
+impl Game {
+    fn new() -> Self {
+        Game {
+            word: Word::new("testerino"),
+            ongoing: true,
+        }
+    }
+
+    fn get_valid_guess(&self) -> char {
+        loop {
+            let guess: char = cli_read_letter();
+            if !self.word.revealed_chars.contains(&guess) {
+                return guess
+            }
+    
+            println!("You already guessed \"{}\"", guess);
+        }
+    }
+
+    //
+    fn process_guess(&self) {
+        
+    }
+
+    //
+    fn play_round(&self) {
+
     }
 }
 
@@ -42,21 +93,3 @@ fn cli_read_letter() -> char {
     }
 }
 
-struct Word {
-    word: String,
-    revealed_chars: Vec<char>,
-}
-
-impl Word {
-    fn new(word: &str) -> Self {
-        Word {
-            word: word.to_string(),
-            revealed_chars: Vec::<char>::new(),
-        }
-    }
-
-    fn add_to_revealed(&mut self, c: char) {
-        // At this point its guaranteed that char is fine
-        self.revealed_chars.push(c);
-    }
-}
