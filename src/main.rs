@@ -79,7 +79,7 @@ impl Game {
         }
 
         // End game if no lives left
-        if self.lives_remaining == 0 {
+        if self.lives_remaining == 0 && !self.word.guessed_all() {
             false
         } else {
             true
