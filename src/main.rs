@@ -2,14 +2,6 @@ use std::io;
 
 
 fn main() {
-    /*let mut w = Word::new("asdfg");
-
-    let guess = get_valid_guess(&w);
-
-    w.add_to_revealed(guess);
-
-    println!("{} {:?}", w.word, w.tried_chars);*/
-
     let mut game = Game::new();
 
     loop {
