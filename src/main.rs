@@ -8,7 +8,7 @@ fn main() {
 
     w.add_to_revealed(guess);
 
-    println!("{} {:?}", w.word, w.revealed_chars);*/
+    println!("{} {:?}", w.word, w.tried_chars);*/
 
     let mut game = Game::new();
 
@@ -21,40 +21,40 @@ fn main() {
 
 struct Word {
     word: String,
-    revealed_chars: Vec<char>,
+    tried_chars: Vec<char>,
 }
 
 impl Word {
     fn new(word: &str) -> Self {
         Word {
             word: word.to_string(),
-            revealed_chars: Vec::<char>::new(),
+            tried_chars: Vec::<char>::new(),
         }
     }
 
     fn add_to_revealed(&mut self, c: char) {
         // At this point its guaranteed that char is fine
-        self.revealed_chars.push(c);
+        self.tried_chars.push(c);
     }
 }
 
 struct Game {
     word: Word,
-    ongoing: bool,
+    lives_remaining: usize,
 }
 
 impl Game {
     fn new() -> Self {
         Game {
             word: Word::new("testerino"),
-            ongoing: true,
+            lives_remaining: 10,
         }
     }
 
     fn get_valid_guess(&self) -> char {
         loop {
             let guess: char = cli_read_letter();
-            if !self.word.revealed_chars.contains(&guess) {
+            if !self.word.tried_chars.contains(&guess) {
                 return guess
             }
     
@@ -62,14 +62,16 @@ impl Game {
         }
     }
 
-    //
-    fn process_guess(&self) {
-        
-    }
-
-    //
     fn play_round(&self) {
+        let guess = self.get_valid_guess();
 
+        if self.word.contains(guess) {
+            // Add to tried and reveal
+        } else {
+            // Add to tried and increment drawing
+        }
+
+        // End game if no lives left
     }
 }
 
