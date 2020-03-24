@@ -5,8 +5,8 @@ fn main() {
     let mut game = Game::new();
 
     loop {
-        game.play_round();
-        if game.lives_remaining == 0 { break; }
+        // This could read better
+        if !game.play_round() { break };
     }
 }
 
@@ -39,7 +39,7 @@ impl Game {
     fn new() -> Self {
         Game {
             word: Word::new("testerino"),
-            lives_remaining: 10,
+            lives_remaining: 3,
         }
     }
 
@@ -54,16 +54,24 @@ impl Game {
         }
     }
 
-    fn play_round(&self) {
+    fn play_round(&mut self) -> bool{
+        // Display word
+
         let guess = self.get_valid_guess();
+        self.word.tried_chars.push(guess);
 
         if self.word.word.contains(guess) {
-            // Add to tried and reveal
         } else {
             // Add to tried and increment drawing
+            self.lives_remaining -= 1;
         }
 
         // End game if no lives left
+        if self.lives_remaining == 0 {
+            false
+        } else {
+            true
+        }
     }
 }
 
