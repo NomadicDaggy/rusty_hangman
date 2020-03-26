@@ -17,15 +17,6 @@ struct Word {
     tried_chars: Vec<char>,
 }
 
-const ASCII_LOWER: [char; 26] = [
-    'a', 'b', 'c', 'd', 'e', 
-    'f', 'g', 'h', 'i', 'j', 
-    'k', 'l', 'm', 'n', 'o',
-    'p', 'q', 'r', 's', 't', 
-    'u', 'v', 'w', 'x', 'y', 
-    'z',
-];
-
 impl fmt::Display for Word {
     // This trait requires `fmt` with this exact signature.
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -41,7 +32,7 @@ impl fmt::Display for Word {
         // stream: `f`. Returns `fmt::Result` which indicates whether the
         // operation succeeded or failed. Note that `write!` uses syntax which
         // is very similar to `println!`.
-        write!(f, "{}", encoded_word.chars().collect::<Vec<String>>().join(" "))
+        write!(f, "{}", encoded_word)
     }
 }
 
@@ -80,7 +71,7 @@ impl Game {
     fn new() -> Self {
         Game {
             word: Word::new("testerino"),
-            lives_remaining: 3,
+            lives_remaining: 5,
         }
     }
 
@@ -107,12 +98,15 @@ impl Game {
             self.lives_remaining -= 1;
         }
 
-        // End game if no lives left
-        if self.lives_remaining == 0 && !self.word.guessed_all() {
+        println!("{}", self.word);
+
+        if self.word.guessed_all() {
+            println!("You won!");
             false
-        } else {
-            true
-        }
+        } else if self.lives_remaining == 0 {
+            println!("You lost!");
+            false
+        } else { true }
     }
 }
 
