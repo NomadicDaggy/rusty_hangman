@@ -1,4 +1,5 @@
 use std::io;
+use std::fmt;
 
 
 fn main() {
@@ -14,6 +15,34 @@ fn main() {
 struct Word {
     word: String,
     tried_chars: Vec<char>,
+}
+
+const ASCII_LOWER: [char; 26] = [
+    'a', 'b', 'c', 'd', 'e', 
+    'f', 'g', 'h', 'i', 'j', 
+    'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't', 
+    'u', 'v', 'w', 'x', 'y', 
+    'z',
+];
+
+impl fmt::Display for Word {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut encoded_word = self.word.clone();
+
+        for c in self.word.chars() {
+            if !self.tried_chars.contains(&c) {
+                encoded_word = encoded_word[..].replace(c, "_");
+            }
+        }
+
+        // Write into the supplied output
+        // stream: `f`. Returns `fmt::Result` which indicates whether the
+        // operation succeeded or failed. Note that `write!` uses syntax which
+        // is very similar to `println!`.
+        write!(f, "{}", encoded_word.chars().collect::<Vec<String>>().join(" "))
+    }
 }
 
 impl Word {
