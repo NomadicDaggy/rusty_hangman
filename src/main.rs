@@ -55,7 +55,7 @@ impl Word {
         unique_chars.dedup();
 
         for c in unique_chars.iter() {
-            if self.word.contains(&c.to_string()) { return false }
+            if !self.tried_chars.contains(c) { return false }
         }
 
         true
@@ -71,7 +71,7 @@ impl Game {
     fn new() -> Self {
         Game {
             word: Word::new("testerino"),
-            lives_remaining: 5,
+            lives_remaining: 2,
         }
     }
 
