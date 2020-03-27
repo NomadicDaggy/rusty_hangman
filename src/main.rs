@@ -69,10 +69,15 @@ struct Game {
 
 impl Game {
     fn new() -> Self {
-        Game {
+        let mut game = Game {
             word: Word::new("testerino"),
             lives_remaining: 2,
-        }
+        };
+
+        game.word.add_to_tried(game.word.word.chars().next().unwrap());
+        println!("{}", game.word);
+
+        game
     }
 
     fn get_valid_guess(&self) -> char {
